@@ -92,25 +92,25 @@ int main(void)
 
 	configureAllLEDS();
 
-	volatile uint32_t* RCC_APB1ENR1 = (uint32_t*)(0x40021000 + 0x58); //offset 0x58 = 88 / 4 = 22
-	*RCC_APB1ENR1 |= (0x1 << 2);
+	volatile uint32_t* apb1enr1 = (uint32_t*)(0x40021000 + 0x58); //offset 0x58 = 88 / 4 = 22
+	*apb1enr1 |= (0x1 << 2);
 
     volatile uint32_t* RCC = (uint32_t*) 0x40021000;
-    volatile uint32_t* RCC_CR = RCC;
+    volatile uint32_t* cr = RCC;
 
-    *RCC_CR |= (0x1 << 8); //config HSION
+    *cr |= (0x1 << 8); //config HSION
 
-    while (((*RCC_CR >> 10) & 0x1) != 1){
+    while (((*cr >> 10) & 0x1) != 1){
     	//wait
     }
 
-    volatile uint32_t* RCC_CFGR = RCC + 2; //offset is 0x08 8/4 = 2
+    volatile uint32_t* cfgr = RCC + 2; //offset is 0x08 8/4 = 2
 
     //set sw
-    *RCC_CFGR &= ~(0x3);
-    *RCC_CFGR |= (0x1);
+    *cfgr &= ~(0x3);
+    *cfgr |= (0x1);
 
-    while (((*RCC_CFGR >> 2) & 0x3) != 0x1){ //bits 2-3th in CFGR says if H16SI is ready or not
+    while (((*cfgr >> 2) & 0x3) != 0x1){ //bits 2-3th in CFGR says if H16SI is ready or not
         	//wait
     }
 
@@ -118,26 +118,26 @@ int main(void)
     //tim4 in apb1 -> have to enable clock for apb1
     //base of tim4 is 0x4000 0800
 
-    volatile uint32_t* TIM4 =  (uint32_t*)0x40000800;
+    volatile uint32_t* tim4 =  (uint32_t*)0x40000800;
 
-    volatile uint32_t* TIM4_PSC = (uint32_t*)((uint32_t)TIM4 + 0x28); //ofset 0x28 = 40 / 4 = 10
-    *TIM4_PSC = 15999;
+    volatile uint32_t* psc = (uint32_t*)((uint32_t)tim4 + 0x28); //ofset 0x28 = 40 / 4 = 10
+    *psc = 15999;
 
-    volatile uint32_t* TIM4_ARR = (uint32_t*)((uint32_t)TIM4 + 0x2C);
-    *TIM4_ARR = 999;
+    volatile uint32_t* arr = (uint32_t*)((uint32_t)tim4 + 0x2C);
+    *arr = 999;
 
-    volatile uint32_t* TIM4_EGR = (uint32_t*)((uint32_t)TIM4 + 0x14);
-    *TIM4_EGR |= 0x1;
+    volatile uint32_t* egr = (uint32_t*)((uint32_t)tim4 + 0x14);
+    *egr |= 0x1;
 
-    volatile uint32_t* TIM4_DIER = (uint32_t*)((uint32_t)TIM4 + 0x0C);
-    *TIM4_DIER |= 0x1;
+    volatile uint32_t* dier = (uint32_t*)((uint32_t)tim4 + 0x0C);
+    *dier |= 0x1;
 
-    volatile uint32_t* TIM4_CR1 = (uint32_t*)((uint32_t)TIM4);
-    *TIM4_CR1 |= 1;
+    volatile uint32_t* cr1 = (uint32_t*)((uint32_t)tim4);
+    *cr1 |= 1;
 
     //NVIC config
-    volatile uint32_t* NVIC = (uint32_t*)0xE000E100;
-    *NVIC |= (0x1 << 30);
+    volatile uint32_t* nvic = (uint32_t*)0xE000E100;
+    *nvic |= (0x1 << 30);
 
 	while(1){
 

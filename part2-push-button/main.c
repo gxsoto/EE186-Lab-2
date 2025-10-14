@@ -53,8 +53,6 @@ void configureButton(uint32_t* port){
 	// mode
 	// 00 input mode
 	*port &= ~(0x3 << 26);
-
-	*(port + 3) &= ~(0x3 << 26);
 	*(port + 3) |= (0x2 << 26);
 
 }
@@ -92,7 +90,6 @@ int main(void)
 
 	// wire the exti
 	volatile uint32_t* sys = (uint32_t*) (0x40010000 + 0x14);
-	*sys &= ~(0xF << 4);
 	*sys |= (0x2 << 4); //config exti13
 
 	//mexti mask
