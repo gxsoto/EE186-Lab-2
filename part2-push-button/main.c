@@ -63,7 +63,7 @@ void configureNVIC(){
 	volatile uint32_t* setEnable = (uint32_t*) 0xE000E104;
 	volatile uint32_t* priority = (uint32_t*) 0xE000E428;
 
-	*setEnable |= (1 << (40 - 32));
+	*setEnable |= (1 << 8);
 	*priority = (0x10 << 24);
 }
 
@@ -84,7 +84,7 @@ int main(void)
 {
 	//configure clock
 	volatile uint32_t* clock = (uint32_t*) (0x40021000 + 0x4C);
-	*clock |=(1 << 1) | (1 << 2); // only turn on clock for gpio b, c
+	*clock |= 0x6; // only turn on clock for gpio b, c
 
 	//configure syscfg
 	volatile uint32_t* apb2Clock = (uint32_t*) (0x40021000 + 0x60);

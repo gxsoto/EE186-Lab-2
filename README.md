@@ -14,4 +14,18 @@ It gets executed when a hardware or software component gerneates an interrupt si
 The interrupt will reassert itself as pending even after the ISR resolves so it will get 
 triggered again and potentially infinitely if the flag is never cleared.
 
+Part 3 Questions
+1. How does a timer interrupt work?
+Within the hardware of the microcontoller a timer counts using a clock; it can count either
+up or down. Once it reaches a certain value, it sends a interrupt request to the CPU to 
+run an ISR. 
 
+2. What function is counting time passing + what function triggers the ISR?
+The timer peripheral is able to take care of both counting time and triggerign the ISR.
+Once the counter reaches a certain value we can call the CPU to fire an ISR.
+
+
+4. How is the timer interrupt differnt from an external interrupt?
+It is similar to an external interrupt in where hardaawre or software can
+produce a signal to tell the CPU to pause and run an ISR excpet it is 
+contingent on a timer firing rather than a external event.
